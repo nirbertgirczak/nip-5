@@ -51,3 +51,13 @@ def test_apartment_costs_with_optional_parameters():
 
     costs = manager.get_apartment_costs('apart-polanka')
     assert costs == 3532.0
+
+# dodane przeze mnie
+def test_get_apartment_costs():
+    parameters = Parameters()
+    manager = Manager(parameters)
+    assert manager.get_apartment_costs("wrong-key", 2024, 3) == 0.0  # mieszkanie nie istnieje
+    assert manager.get_apartment_costs("apart-polanka", 2024, 2) == 0.0  # brak rachunków w danym miesiącu
+    assert manager.get_apartment_costs("apart-polanka", 2025, 2) == 0.0  # rok się zgadza, miesiąc nie
+    result = manager.get_apartment_costs("apart-polanka", 2025, 1)  # poprawne sumowanie
+    assert result == 910.0
